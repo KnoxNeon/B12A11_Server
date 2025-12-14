@@ -25,6 +25,18 @@ async function run() {
     // Connect the client to the server	(optional starting in v4.7)
     await client.connect();
 
+    const database = client.db('donateblood')
+    const userCollections = database.collection('user')
+
+    app.post('/users', async (req, res) =>{
+        const userInfo = req.body
+        userInfo.role = "buyer"
+        userInfo.createdAt = new Date()
+
+        const result = await userCollections.insertOne(userInfo)
+        res.send(result)
+    })
+
 
 
     
